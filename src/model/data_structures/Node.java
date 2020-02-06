@@ -15,7 +15,7 @@ public class Node<Item>
 	
 	
 	 /**
-     * Nodo con sus valores en null.
+     * Constructor.
      */
 	public Node(Item x)
 	{

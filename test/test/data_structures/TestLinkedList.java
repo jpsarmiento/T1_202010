@@ -1,55 +1,80 @@
 package test.data_structures;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
-
 import model.data_structures.Comparendo;
 import model.data_structures.LinkedList;
-import model.logic.Modelo;
 
 public class TestLinkedList <Item>
-{
-	
-	
-	private LinkedList list;
-	
+{	
+
+	private LinkedList<Item> list;
+
 	@Before
 	public void setUp1() 
 	{
-		Comparendo a = new Comparendo(1, "4/02/2020", "Lapiz", "Particular", "Servicio", "Velocidad", "Iba muy rapido", "Kennedy", 7, 5 );
-		Comparendo b = new Comparendo(2, "5/02/2020", "Lapiz", "Publico", "Servicio", "Semaforo", "Semaforo en rojo", "Bosa", -14, 18 );
-		Comparendo c = new Comparendo(3, "5/02/2020", "Lapiz", "Publico", "Servicio", "Alcohol", "Conductor ebrio", "Fontibon", -2, 3 );
-		Comparendo d = new Comparendo(4, "7/02/2020", "Coso", "Particular", "Servicio", "Tombo", "Me dijo tombo", "Usaquen", 33, 0 );
+		list = new LinkedList<Item>();
+	}
+
+	public void setUp2()
+	{
+		ArrayList<Double> array = new ArrayList<Double>();
+		array.add(10.0067);
+		array.add(-20.0034);
+		Comparendo a = new Comparendo(1, "", "", "", "", "", "", "", array);
+		Comparendo b = new Comparendo(2, "", "", "", "", "", "", "", array);
+		Comparendo c = new Comparendo(3, "", "", "", "", "", "", "", array);
+		Comparendo d = new Comparendo(4, "", "", "", "", "", "", "", array);
+		list.append((Item) a);
+		list.append((Item) b);
+		list.append((Item) c);
+		list.append((Item) d);
 	}
 
 	@Test
-	public void testAddAtBeggining() 
+	public void testGetLength() 
 	{
 		setUp1();
-		
-	}
-	
-	@Test
-	public void testAddAtEnd()
-	{
-		
-	}
-	
-	@Test
-	public void testDelete() 
-	{
-		
+		setUp2();
+		assertEquals(4, list.getLength());
 	}
 	
 	@Test
 	public void testGetAt() 
 	{
-		
+		setUp1();
+		setUp2();
+		try
+		{
+		assertEquals("Infracción #4:  en:  coords: 10.0067, -20.0034", list.getAt(3).toString());
+		assertEquals("Infracción #1:  en:  coords: 10.0067, -20.0034", list.getAt(0).toString());
+		}
+		catch(Exception e)
+		{
+			
+		}
 	}
 	
 	@Test
-	public void testGetLength() 
+	public void testDelete()
 	{
-		
+		setUp1();
+		setUp2();
+		try
+		{
+		assertEquals("Infracción #2:  en:  coords: 10.0067, -20.0034", list.delete(1).toString());
+		assertEquals(3, list.getLength());
+		}
+		catch(Exception e)
+		{
+			
+		}
 	}
+
+	
+
+
 }

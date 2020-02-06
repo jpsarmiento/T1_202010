@@ -1,56 +1,94 @@
 package model.data_structures;
+import java.util.ArrayList;
+
 import com.google.gson.*;
 import com.google.gson.annotations.SerializedName;
 
 public class Comparendo 
 {
 	
-	@SerializedName("OBJECTID")
-	private int objID;
+	/**
+	 * ID del comparendo.
+	 */
+	private int OBJECTID;
 	
-	@SerializedName("FECHA_HORA")
-	private String fecha;
+	/**
+	 * Fecha del comparendo.
+	 */
+	private String FECHA_HORA;
 	
-	@SerializedName("MEDIO_DETE")
-	private String medioDet;
+	/**
+	 * Medio de deteccion de la infraccion.
+	 */
+	private String MEDIO_DETE;
 	
-	@SerializedName("CLASE_VEHI")
-	private String vehiculo;
+	/**
+	 * Tipo de vehiculo de la infraccion.
+	 */
+	private String CLASE_VEHI;
 	
-	@SerializedName("TIPO_SERVI")
-	private String tipoServicio;
+	/**
+	 * Tipo de servicio del vehiculo.
+	 */
+	private String TIPO_SERVI;
 	
-	@SerializedName("INFRACCION")
-	private String infraccion;
+	/**
+	 * Titulo de la infraccion.
+	 */
+	private String INFRACCION;
 	
-	@SerializedName("DES_INFRAC")
-	private String descripcion;
+	/**
+	 * Descripcion de la infraccion cometida.
+	 */
+	private String DES_INFRAC;
 	
-	@SerializedName("LOCALIDAD")
-	private String localidad;
+	/**
+	 * Localidad donde ocurrio la infraccion.
+	 */
+	private String LOCALIDAD;
 	
-	private double coords1;
+	/**
+	 * Par de cordenadas (lat y lon).
+	 */
+	private ArrayList<Double> coordinates;
 	
-	private double coords2;
-	
-	
-	public Comparendo (int id, String fecha, String medio, String vehiculo, String tipoServ, String infraccion, String descripcion, String localidad, double cord1, double cord2)
+	/**
+	 * Constructor.
+	 * @param int id. ID de la infraccion
+	 * @param String fecha. Fecha del comparendo
+	 * @param String medio. Medio de deteccion.
+	 * @param String vehiculo. Tipo de vehiculo
+	 * @param String tipoServ. Tipo de servicio del vehiculo
+	 * @param String infraccion. Titulo de la infraccion.
+	 * @param String descripcion. Descripcion de la infraccion
+	 * @param String localidad. Localidad de los hechos.
+	 * @param ArrayList<Double> cordenadas. Par de cordenadas.
+	 */
+	public Comparendo (int id, String fecha, String medio, String vehiculo, String tipoServ, String infraccion, String descripcion, String localidad, ArrayList<Double> cordenadas)
 	{
-		objID = id;
-		this.fecha = fecha;
-		medioDet= medio;
-		this.vehiculo = vehiculo;
-		tipoServicio = tipoServ;
-		this.infraccion = infraccion;
-		this.localidad = localidad;
-		coords1 = cord1;
-		coords2 = cord2;
+		OBJECTID = id;
+		FECHA_HORA = fecha;
+		MEDIO_DETE = medio;
+		CLASE_VEHI = vehiculo;
+		TIPO_SERVI = tipoServ;
+		INFRACCION = infraccion;
+		DES_INFRAC = descripcion;
+		LOCALIDAD = localidad;
+		coordinates = cordenadas;
 	}
 	
 	@Override
 	public String toString()
 	{
-		return (objID + vehiculo + infraccion + coords1 + coords2);
+		return ("Infracción #" + OBJECTID + ": " + DES_INFRAC + " en: " + LOCALIDAD + " coords: " + coordinates.get(0) + ", " + coordinates.get(1));
+	}
+	
+	/**
+	 * @return OBJECTID
+	 */
+	public int getID()
+	{
+		return OBJECTID;
 	}
 
 }

@@ -7,9 +7,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-
 import com.google.gson.*;
 import model.data_structures.Node;
 
@@ -17,21 +17,31 @@ import model.data_structures.Node;
  * Definicion del modelo del mundo
  *
  */
-public class Modelo<Item extends Comparable <Item>> {
+public class Modelo {
 	/**
 	 * Atributos del modelo del mundo
 	 */
 	private LinkedList datos;
-	
+
+	/**
+	 * Gson utilizado para deserializar el archivo
+	 */
+	private Gson gson;
+
+	/**
+	 * Direccion del archivo de datos.
+	 */
+	public final static String SOURCE = "./data/comparendos_dei_2018_small.geojson";
 	/**
 	 * Constructor del modelo del mundo
 	 */
 	public Modelo()
 	{
 		datos = new LinkedList();
+		gson = new Gson();
 	}
-	
-	
+
+
 	/**
 	 * Servicio de consulta de numero de elementos presentes en el modelo 
 	 * @return numero de elementos presentes en el modelo
@@ -45,65 +55,127 @@ public class Modelo<Item extends Comparable <Item>> {
 	 * Requerimiento de agregar dato
 	 * @param dato
 	 */
-	public void agregarComienzo(Item x)
+	public void agregar(Comparendo x)
 	{	
-		datos.addAtBeginning(x);
+		datos.append(x);
 	}
-	
-	/**
-	 * Requerimiento de agregar dato
-	 * @param dato
-	 */
-	public void agregarFinal(Item x)
-	{	
-		datos.addAtEnd(x);
-	}
-	
+
 	/**
 	 * Requerimiento buscar dato
 	 * @param dato Dato a buscar
 	 * @return dato encontrado
 	 * @throws Exception 
 	 */
-	
-	public Node buscarPosicion(int x) throws Exception
+
+	public Comparendo buscarPosicion(int x)
 	{
-		return datos.getAt(x);
+		try
+		{
+			return (Comparendo) datos.getAt(x);
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
 	}
-	
+
 	/**
 	 * Requerimiento eliminar dato
 	 * @param dato Dato a eliminar_
 	 * @return dato eliminado
 	 * @throws Exception 
 	 */
-	public void eliminar(int pos) throws Exception
+	public Comparendo eliminar(int x)
 	{
-		datos.delete(pos);
+		try
+		{
+			return (Comparendo) datos.delete(x);
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
 	}
-	
-	public void loadJSON() throws Exception
+
+	/**
+	 * Ejemplo de usar gson con un objeto
+	 * @throws Exception 
+	 */
+	public void example()
 	{
-		Gson gson = new Gson();
-		BufferedReader br = new BufferedReader ( new FileReader ( new File ("./data/comparendos_dei_2018.geojson")));
-		String content = "";
-		String line = br.readLine();
-		
-		while(line != null)
+		try
 		{
-			content += line;
-			line = br.readLine();
+			BufferedReader br = new BufferedReader(new FileReader(new File("./data/abc.geojson")));
+			Comparendo ejemplo = gson.fromJson(br, Comparendo.class);
+			agregar(ejemplo);
 		}
-		
-		Collection<Comparendo> x = (Collection<Comparendo>) gson.fromJson(content, Comparendo.class);
-		
-		Iterator iter = x.iterator();
-		while(iter.hasNext())
+		catch(Exception e)
 		{
-			Comparendo a = (Comparendo) iter.next();
-			System.out.println(a);
-			datos.addAtEnd((Comparable) a);
+			System.out.println("Error de archivo");
 		}
+	}
+
+	/**
+	 * Lectura del geojson
+	 */
+	public ArrayList<String> readJSON()
+	{
+		ArrayList<String> objects = new ArrayList<String>();
+		try
+		{
+			BufferedReader br = new BufferedReader(new FileReader(new File(SOURCE)));
+			String line = br.readLine();
+			while(line != null)
+			{
+				String object = "";
+				for(int i = 0; i < 15; i++)
+				{
+					object += line;
+					line = br.readLine();
+				}
+				objects.add(object);
+
+			}
+		}
+		catch(Exception e)
+		{
+
+		}
+		return objects;
+	}
+
+	/**
+	 * Carga del geojson a objetos de la lista.
+	 */
+	public void loadJSON()
+	{
+		ArrayList<String> objects = readJSON();
+		for(int i = 0; i < objects.size(); i++)
+		{
+			Comparendo obj = gson.fromJson(objects.get(i), Comparendo.class);
+			agregar(obj);
+		}
+
+	}
+
+	/**
+	 * Imprimir los elemntos de la lista por medio de sus metodos toString().
+	 */
+	public String imprimirLista()
+	{
+		String lista = "";
+		for(int i = 0; i < datos.getLength(); i++)
+		{
+			try
+			{
+				lista += datos.getAt(0).toString();
+			}
+			catch(Exception e)
+			{
+
+			}
+		}
+		return lista;
 	}
 
 
